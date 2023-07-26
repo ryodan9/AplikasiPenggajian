@@ -1,0 +1,206 @@
+{% extends 'layout/index.html' %}
+
+{% block title %}Kelola Karyawan{% endblock %}
+
+{% block body %}
+
+<div class="page-heading">
+    <h3>Karyawan</h3>
+</div>
+
+<section class="section">
+    <div class="row" id="basic-table">
+        <div class="col-12 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <!-- Modal Add -->
+                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#inlineForm">
+                        Tambah Karyawan
+                    </button>
+                    <div class="modal fade text-left" id="inlineForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                            role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="myModalLabel33">Tambah Karyawan</h4>
+                                    <button type="button" class="close" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                        <i data-feather="x"></i>
+                                    </button>
+                                </div>
+                                <form action="{{url_for('tambah_karyawan')}}" method="POST">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="nama">Nama :</label>
+                                            <input type="text" name="nama" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="tgllahir">Tanggal Lahir :</label>
+                                            <input type="date" name="tanggal_lahir" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="alamat">Alamat :</label>
+                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="alamat" required></textarea>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="notelp">No. Telepon :</label>
+                                            <input type="text" name="no_telp" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="idjabatan">Jabatan :</label>
+                                            <select class="form-select col-10" id="inputGroupSelect01" name="idjabatan" required>
+                                                <option selected disabled>Choose...</option>
+                                                {% for dt in jabatan %}
+                                                <option value="{{dt.id}}">{{dt.nama_jabatan}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-light-secondary"
+                                            data-bs-dismiss="modal">
+                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Close</span>
+                                        </button>
+                                        <button type="submit" name="tambah" class="btn btn-primary ml-1">
+                                            <i class="bx bx-check d-block d-sm-none"></i>
+                                            <span class="d-none d-sm-block">Tambah</span>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- end modal add -->
+                </div>
+                <div class="card-content">
+                    <div class="card-body">
+                        <!-- Table with outer spacing -->
+                        <div class="table-responsive">
+                            <table class="table table-lg" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nama</th>
+                                        <th>Tanggal Lahir</th>
+                                        <th>Alamat</th>
+                                        <th>No Telepon</th>
+                                        <th>Jabatan</th>
+                                        <th class="col-2">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for dt in data %}
+                                    <tr>
+                                        <td>{{loop.index}}</td>
+                                        <td class="text-bold-500">{{dt.nama}}</td>
+                                        <td>{{dt.tanggal_lahir}}</td>
+                                        <td class="text-bold-500">{{dt.alamat}}</td>
+                                        <td>{{dt.no_telp}}</td>
+                                        <td class="text-bold-500">{{dt.jabatan.nama_jabatan}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#inlineForm{{dt.id}}">
+                                                Edit
+                                            </button>
+                                            <div class="modal fade text-left" id="inlineForm{{dt.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel33" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+                                                    role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" id="myModalLabel33">Edit</h4>
+                                                            <button type="button" class="close" data-bs-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <i data-feather="x"></i>
+                                                            </button>
+                                                        </div>
+                                                        <form action="/editkaryawan/{{dt.id}}" method="POST">
+                                                            <div class="modal-body">
+                                                                <div class="form-group">
+                                                                    <label for="nama">Nama :</label>
+                                                                    <input type="text" name="nama" class="form-control" value="{{dt.nama}}" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="tgllahir">Tanggal Lahir :</label>
+                                                                    <input type="date" name="tanggal_lahir" class="form-control" value="{{dt.tanggal_lahir}}" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="alamat">Alamat :</label>
+                                                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="alamat" required>{{dt.alamat}}</textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="notelp">No. Telepon :</label>
+                                                                    <input type="text" name="no_telp" class="form-control" value="{{dt.no_telp}}" required>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label for="idjabatan">Jabatan :</label>
+                                                                    <select class="form-select col-10" id="inputGroupSelect01" name="idjabatan" required>
+                                                                        <option selected disabled>Choose...</option>
+                                                                        {% for dt in jabatan %}
+                                                                        <option value="{{dt.id}}">{{dt.nama_jabatan}}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-light-secondary"
+                                                                    data-bs-dismiss="modal">
+                                                                    <i class="bx bx-x d-block d-sm-none"></i>
+                                                                    <span class="d-none d-sm-block">Close</span>
+                                                                </button>
+                                                                <button type="submit" class="btn btn-primary ml-1">
+                                                                    <i class="bx bx-check d-block d-sm-none"></i>
+                                                                    <span class="d-none d-sm-block">Edit</span>
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Button Delete -->
+                                            <button type="button" class="btn btn-outline-danger block" data-bs-toggle="modal"
+                                            data-bs-target="#default{{dt.id}}">
+                                            Delete
+                                            </button>
+                                            <div class="modal fade text-left" id="default{{dt.id}}" tabindex="-1" role="dialog"
+                                                aria-labelledby="myModalLabel1" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="myModalLabel1">Konfirmasi</h5>
+                                                            <button type="button" class="close rounded-pill"
+                                                                data-bs-dismiss="modal" aria-label="Close">
+                                                                <i data-feather="x"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <h6>Apakah anda yakin ingin menghapus data ini?</h6>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn" data-bs-dismiss="modal">
+                                                                <i class="bx bx-x d-block d-sm-none"></i>
+                                                                <span class="d-none d-sm-block">Close</span>
+                                                            </button>
+                                                            <a href="/hapuskaryawan/{{dt.id}}" class="btn btn-danger ml-1">
+                                                                <i class="bx bx-check d-block d-sm-none"></i>
+                                                                <span class="d-none d-sm-block">Hapus</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                            
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
