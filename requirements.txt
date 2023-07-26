@@ -86,8 +86,6 @@ pycparser==2.21
 pygame==2.1.0
 Pygments==2.13.0
 PyMySQL==1.0.2
-PyOpenGL @ file:///C:/Users/frahm/Downloads/PyOpenGL-3.1.5-cp39-cp39-win_amd64.whl
-PyOpenGL-accelerate @ file:///C:/Users/frahm/Downloads/PyOpenGL_accelerate-3.1.5-cp39-cp39-win_amd64.whl
 pyparsing==3.0.9
 PyQt5==5.15.7
 PyQt5-Qt5==5.15.2
@@ -134,4 +132,3 @@ wcwidth==0.2.5
 Werkzeug==2.1.2
 wrapt==1.14.1
 WTForms==3.0.1
-zipp==3.8.0
